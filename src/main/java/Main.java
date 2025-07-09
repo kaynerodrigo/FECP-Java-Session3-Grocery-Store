@@ -5,65 +5,57 @@ import java.util.Scanner;
 public class Main {
     private static final HashMap<String, Integer> inventory = new HashMap<>();
 
-    private static void addProduct(Scanner sc) {
-        System.out.print("Enter product name: ");
-        String productName = sc.nextLine();
-        System.out.print("Enter quantity: ");
-        int quantity = sc.nextInt();
-        sc.nextLine();
-
-        inventory.put(productName, quantity);
-        System.out.println("Product added!");
+    static void addProduct(String name, int quantity) {
+        if (quantity <= 0) {
+            throw new UnsupportedOperationException("Quantity must be more than 0!");
+        }
+        inventory.put(name, quantity);
     }
 
-    private static void checkProduct(Scanner sc) {
-        System.out.print("Enter product name to check: ");
-        String productName = sc.nextLine();
-
-        if (inventory.containsKey(productName)) {
-            System.out.println(productName + " is in stock: " + inventory.get(productName));
-        } else {
-            System.out.println(productName + " is not in the inventory.");
+    static String checkProduct(String name) {
+        if (inventory.containsKey(name)) {
+            return name + " is in stock: " + inventory.get(name);
+        } else{
+            return name + " is not in the inventory";
         }
     }
 
-    private static void updateProduct(Scanner sc) {
-        System.out.print("Enter product name to update: ");
-        String productName = sc.nextLine();
-
-        if (inventory.containsKey(productName)) {
-            System.out.print("Enter new stock quantity: ");
-            int newQuantity = sc.nextInt();
-            sc.nextLine();
-
-            inventory.put(productName, newQuantity);
-            System.out.println("Stock updated!");
+    static String updateProduct(String name, int newQuantity) {
+        if (inventory.containsKey(name)) {
+            inventory.put(name, newQuantity);
+            return "Stock updated!";
         } else {
-            System.out.println("Product not found in inventory.");
+            return "Product not found in inventory.";
         }
     }
 
-    private static void removeProduct(Scanner sc) {
-        System.out.print("Enter product name to remove: ");
-        String productName = sc.nextLine();
-
-        if (inventory.containsKey(productName)) {
-            inventory.remove(productName);
-            System.out.println("Product removed.");
+    private static String removeProduct(String name) {
+        if (inventory.containsKey(name)) {
+            inventory.remove(name);
+            return "Stock updated!";
         } else {
-            System.out.println("Product not found in inventory.");
+            return "Product not found in inventory.";
         }
     }
 
-    private static void viewInventory() {
-        System.out.println("Current Inventory:");
+    public static Map<String, Integer> getInventory() {
+        return new HashMap<>(inventory);
+    }
+
+    public static void clearInventory() {
+        inventory.clear();
+    }
+
+    public static String viewInventory() {
         if (inventory.isEmpty()) {
-            System.out.println("The inventory is empty.");
-        } else {
-            for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
-                System.out.println(entry.getKey() + " - " + entry.getValue() + " pcs");
-            }
+            return "The inventory is empty.";
         }
+
+        StringBuilder sb = new StringBuilder("Current Inventory: ");
+        for (Map.Entry<String, Integer> entry : inventory.entrySet()) {
+            sb.append(entry.getKey()).append(" - ").append(entry.getValue()).append(" pcs\n");
+        }
+        return sb.toString().trim(); // remove trailing newline
     }
 
     private static void showInterfaceMenu() {
@@ -88,19 +80,37 @@ public class Main {
 
             switch (userChoice) {
                 case 1:
-                    viewInventory();
+                    System.out.println(viewInventory());
                     break;
                 case 2:
-                    addProduct(sc);
+                    System.out.println("Enter product name: ");
+                    String nameToAdd = sc.nextLine();
+                    System.out.println("Enter quantity: ");
+                    int qtyToAdd = sc.nextInt();
+                    sc.nextLine();
+                    try {
+                        addProduct(nameToAdd, qtyToAdd);
+                    } catch (UnsupportedOperationException e) {
+                        System.out.println("Invalid quantity!");
+                    }
                     break;
                 case 3:
-                    checkProduct(sc);
+                    System.out.print("Enter product name to check: ");
+                    String nameToCheck = sc.nextLine();
+                    System.out.println(checkProduct(nameToCheck));
                     break;
                 case 4:
-                    updateProduct(sc);
+                    System.out.print("Enter product name to update: ");
+                    String nameToUpdate = sc.nextLine();
+                    System.out.print("Enter new quantity: ");
+                    int newQty = sc.nextInt();
+                    sc.nextLine();
+                    System.out.println(updateProduct(nameToUpdate, newQty));
                     break;
                 case 5:
-                    removeProduct(sc);
+                    System.out.print("Enter product name to remove: ");
+                    String nameToRemove = sc.nextLine();
+                    System.out.println(removeProduct(nameToRemove));
                     break;
                 case 6:
                     System.out.println("Exiting system...");
