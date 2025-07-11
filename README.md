@@ -1,4 +1,13 @@
-# FECP-Java-Session3-Grocery-Store
+# FECP-Java-Session3-Grocery-Store 1
+
+- Name: Kayne Rodrigo
+- Project: Java – Session 3: Lab 1 Part 1 of 2  
+
+## Screenshot
+![image](https://github.com/user-attachments/assets/13302498-eeaf-4885-b670-3eaf1f6c299b)
+
+
+# FECP-Java-Session3-Grocery-Store 2
 
 **Name:** Kayne Uriel Rodrigo  
 **Lab:** Java – Session 3: Lab 1 Part 2 of 2  
